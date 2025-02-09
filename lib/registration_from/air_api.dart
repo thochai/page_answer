@@ -74,12 +74,12 @@ class _AirQualityScreenState extends State<AirQualityScreen> {
   }
 
   Color getAqiColor(int aqi) {
-  if (aqi <= 50) return Colors.green;           // อากาศดี
-  if (aqi <= 100) return Colors.yellow[700]!;   // ปานกลาง
-  if (aqi <= 150) return Colors.orange[700]!;   // เริ่มแย่
-  if (aqi <= 200) return Colors.red[700]!;      // แย่มาก
-  if (aqi <= 300) return Colors.purple[700]!;   // อันตรายมาก
-  return Colors.brown[700]!;                    // อันตรายสุด
+  if (aqi <= 50) return Colors.green;           
+  if (aqi <= 100) return Colors.yellow[700]!;   
+  if (aqi <= 150) return Colors.orange[700]!;   
+  if (aqi <= 200) return Colors.red[700]!;      
+  if (aqi <= 300) return Colors.purple[700]!;   
+  return Colors.brown[700]!;                    
 }
 
 
