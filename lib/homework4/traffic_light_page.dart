@@ -1,6 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(
+    const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: TrafficLightPage(),
+    ),
+  );
+}
+
 class TrafficLightPage extends StatefulWidget {
   const TrafficLightPage({super.key});
 
@@ -9,15 +18,16 @@ class TrafficLightPage extends StatefulWidget {
 }
 
 class _TrafficLightPageState extends State<TrafficLightPage> {
-  int _currentLight = 0; 
-  bool _isAutoMode = false; 
+  int _currentLight = 0;
+  bool _isAutoMode = false;
   Timer? _timer;
-  int _countdown = 3; 
+  int _countdown = 3;
 
   void _changeLight() {
+    if (!mounted) return;
     setState(() {
       _currentLight = (_currentLight + 1) % 3;
-      _resetCountdown(); 
+      _resetCountdown();
     });
   }
 
@@ -38,6 +48,7 @@ class _TrafficLightPageState extends State<TrafficLightPage> {
     _timer?.cancel();
     _countdown = 3;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return;
       if (_countdown > 1) {
         setState(() {
           _countdown--;
@@ -62,7 +73,7 @@ class _TrafficLightPageState extends State<TrafficLightPage> {
     _timer?.cancel();
     super.dispose();
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,14 +85,14 @@ class _TrafficLightPageState extends State<TrafficLightPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 41, 191, 251), 
+        backgroundColor: const Color.fromARGB(255, 41, 191, 251),
         elevation: 5,
       ),
       body: Container(
-        color: const Color.fromARGB(255, 188, 236, 244), 
+        color: const Color.fromARGB(255, 188, 236, 244),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               // ไฟจราจร
               Container(
@@ -100,28 +111,28 @@ class _TrafficLightPageState extends State<TrafficLightPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 10), 
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _changeLight,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   textStyle: const TextStyle(fontSize: 20),
-                  backgroundColor: const Color.fromARGB(255, 0, 137, 236), 
+                  backgroundColor: const Color.fromARGB(255, 0, 137, 236),
                 ),
                 child: const Text(
                   'เปลี่ยนไฟ',
                   style: TextStyle(
-                    color: Colors.white, 
-                    fontSize: 20, 
-                    fontWeight: FontWeight.bold, 
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 10), 
+              const SizedBox(height: 10),
               SwitchListTile(
                 title: const Text(
                   'เปลี่ยนอัตโนมัติ',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), 
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 value: _isAutoMode,
                 onChanged: (value) => _toggleAutoMode(),
@@ -134,8 +145,7 @@ class _TrafficLightPageState extends State<TrafficLightPage> {
   }
 
   Widget _buildLight(Color color, double opacity, int? countdown) {
-    return AnimatedOpacity(
-      duration: const Duration(seconds: 1),
+    return Opacity(
       opacity: opacity,
       child: Container(
         margin: const EdgeInsets.all(10),
